@@ -52,7 +52,7 @@ import static de.appplant.cordova.emailcomposer.EmailComposer.LOG_TAG;
 /**
  * Implements the interface methods of the plugin.
  */
-public class EmailComposerImpl {
+class EmailComposerImpl {
 
     /**
      * The default mailto: scheme.
@@ -71,7 +71,7 @@ public class EmailComposerImpl {
      * The application context.
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public void cleanupAttachmentFolder (Context ctx) {
+    void cleanupAttachmentFolder (Context ctx) {
         try {
             File dir = new File(ctx.getExternalCacheDir() + ATTACHMENT_FOLDER);
 
@@ -94,7 +94,7 @@ public class EmailComposerImpl {
      * @param ctx
      * The application context.
      */
-    public boolean[] canSendMail (String id, Context ctx) {
+    boolean[] canSendMail (String id, Context ctx) {
         // is possible with specified app
         boolean withScheme = isAppInstalled(id, ctx);
         // is possible in general
@@ -114,7 +114,7 @@ public class EmailComposerImpl {
      * The resulting intent.
      * @throws JSONException
      */
-    public Intent getDraftWithProperties (JSONObject params, Context ctx)
+    Intent getDraftWithProperties (JSONObject params, Context ctx)
             throws JSONException {
 
         Intent mail = getEmailIntent();
@@ -540,6 +540,10 @@ public class EmailComposerImpl {
         String resName = fileName.substring(0, fileName.lastIndexOf('.'));
 
         resId = res.getIdentifier(resName, dirName, pkgName);
+
+        if (resId == 0) {
+            resId = res.getIdentifier(resName, "mipmap", pkgName);
+        }
 
         if (resId == 0) {
             resId = res.getIdentifier(resName, "drawable", pkgName);
